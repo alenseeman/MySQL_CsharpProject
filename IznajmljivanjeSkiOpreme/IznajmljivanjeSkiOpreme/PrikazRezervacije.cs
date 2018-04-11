@@ -1,0 +1,62 @@
+﻿using MySql.Data.MySqlClient;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace IznajmljivanjeSkiOpreme
+{
+    public partial class PrikazRezervacije : Form
+    {
+        public static int id;
+        public static string rezervisanoZa;
+        public static string vrstaa;
+
+        public PrikazRezervacije(string vrsta, int i,string n)
+        {
+            vrstaa = vrsta;
+            id = i;
+            rezervisanoZa= n;            
+            InitializeComponent();
+        }
+
+        private void PrikazRezervacije_Load(object sender, EventArgs e)
+        {
+            label6.Text = "#" + id;
+            radioButton4.Checked = true;
+            label2.Text = rezervisanoZa;
+            provjera();
+        }
+        public void provjera()
+        {
+            MySqlConnection konekcija = ConnectionPool.checkOutConnection();
+            MySqlCommand cmdd = konekcija.CreateCommand();
+            if(radioButton4.Checked) //obuca
+            {
+                cmdd.CommandText = "call listaRezervisaneObuceId(" + id + "); ";
+            }
+            else
+            cmdd.CommandText = "call listaRezervisaneOpremeId(" + id + "); ";
+            MySqlDataReader readd = cmdd.ExecuteReader();
+            var dataTable = new DataTable();
+            dataTable.Load(readd);
+            dataGridView1.DataSource = dataTable;
+            dataGridView1.Columns[0].Visible = false;
+        }
+
+        private void radioButton5_CheckedChanged(object sender, EventArgs e)
+        {
+            provjera();
+        }
+
+        private void radioButton4_CheckedChanged(object sender, EventArgs e)
+        {
+            provjera();
+        }
+    }
+}

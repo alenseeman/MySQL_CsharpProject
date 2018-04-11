@@ -1,0 +1,535 @@
+create schema is_ski default character set utf8 collate utf8_unicode_ci;
+use is_ski ;
+CREATE TABLE BANKA
+(
+	IdBanke               INTEGER AUTO_INCREMENT,
+	PostanskiBroj         INTEGER NOT NULL,
+	Naziv                 VARCHAR(50) NOT NULL,
+	 PRIMARY KEY (IdBanke)
+)
+;
+
+
+
+CREATE TABLE GRAD
+(
+	PostanskiBroj         INTEGER NOT NULL,
+	Naziv                 VARCHAR(40) NOT NULL,
+	Drzava                VARCHAR(50) NOT NULL,
+	 PRIMARY KEY (PostanskiBroj)
+)
+;
+
+
+
+CREATE TABLE I_OBUCA
+(
+	IdIznajmljivanja      INTEGER NOT NULL,
+	IdObuce               INTEGER NOT NULL,
+	Cijena                DECIMAL(19,4) NULL,
+	 PRIMARY KEY (IdIznajmljivanja,IdObuce)
+)
+;
+
+
+
+CREATE TABLE I_OPREMA
+(
+	IdOpreme              INTEGER NOT NULL,
+	IdIznajmljivanja      INTEGER NOT NULL,
+	Cijena                DECIMAL(19,4) NULL,
+	 PRIMARY KEY (IdOpreme,IdIznajmljivanja)
+)
+;
+
+
+
+CREATE TABLE ISPLATA
+(
+	IdIsplate             INTEGER AUTO_INCREMENT,
+	DatumIsplate          DATE NOT NULL,
+	IdUgovora             INTEGER NOT NULL,
+	ZaMjesec              INTEGER NULL,
+	ZaGodinu              INTEGER NULL,
+	BrojRacuna            VARCHAR(20) NOT NULL,
+	 PRIMARY KEY (IdIsplate)
+)
+;
+
+
+
+CREATE TABLE IZNAJMLJIVANJE
+(
+	IdIznajmljivanja      INTEGER AUTO_INCREMENT,
+	JMBG                  CHAR(13) NOT NULL,
+	JMBGZaposleni         CHAR(13) NOT NULL,
+	BrojRacuna            VARCHAR(20) NULL,
+	CijenaIznajmljivanja  DECIMAL(19,4) NOT NULL,
+	IznajmljenoOdDatuma   DATE NOT NULL,
+	DatumVracanja         DATE NULL,
+	 PRIMARY KEY (IdIznajmljivanja)
+)
+;
+
+
+
+CREATE TABLE KORISNIK
+(
+	JMBG                  CHAR(13) NOT NULL,
+	 PRIMARY KEY (JMBG)
+)
+;
+
+
+
+CREATE TABLE OSOBA
+(
+	JMBG                  CHAR(13) NOT NULL,
+	Ime                   VARCHAR(30) NOT NULL,
+	Prezime               VARCHAR(30) NOT NULL,
+	PostanskiBroj         INTEGER NOT NULL,
+	 PRIMARY KEY (JMBG)
+)
+;
+
+
+
+CREATE TABLE PROIZVODJAC
+(
+	IdProizvodjaca        INTEGER AUTO_INCREMENT,
+	Naziv                 VARCHAR(50) NOT NULL,
+	 PRIMARY KEY (IdProizvodjaca)
+)
+;
+
+
+
+CREATE TABLE R_OBUCA
+(
+	IdRezervacije         INTEGER NOT NULL,
+	IdObuce               INTEGER NOT NULL,
+	Cijena                DECIMAL(19,4) NULL,
+	 PRIMARY KEY (IdRezervacije,IdObuce)
+)
+;
+
+
+
+CREATE TABLE R_OPREMA
+(
+	IdRezervacije         INTEGER NOT NULL,
+	IdOpreme              INTEGER NOT NULL,
+	Cijena                DECIMAL(19,4) NULL,
+	 PRIMARY KEY (IdRezervacije,IdOpreme)
+)
+;
+
+
+
+CREATE TABLE RACUN
+(
+	BrojRacuna            VARCHAR(20) NOT NULL,
+	DatumOtvaranja        DATE NOT NULL,
+	IdBanke               INTEGER NOT NULL,
+	VrstaRacuna           VARCHAR(50) NOT NULL,
+	 PRIMARY KEY (BrojRacuna)
+)
+;
+
+
+
+CREATE TABLE RACUN_FIRMA
+(
+	BrojRacuna            VARCHAR(20) NOT NULL,
+	 PRIMARY KEY (BrojRacuna)
+)
+;
+
+
+
+CREATE TABLE RACUN_OSOBA
+(
+	BrojRacuna            VARCHAR(20) NOT NULL,
+	JMBG                  CHAR(13) NOT NULL,
+	 PRIMARY KEY (BrojRacuna)
+)
+;
+
+
+
+CREATE TABLE RADNIK
+(
+	JMBGZaposleni         CHAR(13) NOT NULL,
+	 PRIMARY KEY (JMBGZaposleni)
+)
+;
+
+
+
+CREATE TABLE REZERVACIJA
+(
+	IdRezervacije         INTEGER AUTO_INCREMENT,
+	JMBGZaposleni         CHAR(13) NOT NULL,
+	JMBG                  CHAR(13) NOT NULL,
+	RezervisanoZaDan      DATE NOT NULL,
+	DatumRezervacije      DATE NOT NULL,
+	Otkazano              boolean NOT NULL,
+	 PRIMARY KEY (IdRezervacije)
+)
+;
+
+
+
+CREATE TABLE SERVISER
+(
+	JMBGZaposleni         CHAR(13) NOT NULL,
+	 PRIMARY KEY (JMBGZaposleni)
+)
+;
+
+
+
+CREATE TABLE SERVISIRANJE
+(
+	IdServisiranja        INTEGER AUTO_INCREMENT,
+	DatumServisiranja     DATE NOT NULL,
+	IdOpreme              INTEGER NOT NULL,
+	JMBGZaposleni         CHAR(13) NOT NULL,
+	Opis                  VARCHAR(255) NULL,
+	 PRIMARY KEY (IdServisiranja)
+)
+;
+
+
+
+CREATE TABLE SKI_OBUCA
+(
+	IdObuce               INTEGER AUTO_INCREMENT,
+	Broj                  INTEGER NOT NULL,
+	Cijena                INTEGER NOT NULL,
+	Boja                  VARCHAR(30) NULL,
+	Naziv                 VARCHAR(50) NOT NULL,
+	Nedostupan            boolean NOT NULL,
+	IdProizvodjaca        INTEGER NOT NULL,
+	IdTipa                INTEGER NOT NULL,
+	 PRIMARY KEY (IdObuce)
+)
+;
+
+
+
+CREATE TABLE SKI_OPREMA
+(
+	IdOpreme              INTEGER AUTO_INCREMENT,
+	Boja                  VARCHAR(20) NULL,
+	Duzina                INTEGER NOT NULL,
+	GodinaProizvodnje     INTEGER NOT NULL,
+	Cijena                DECIMAL(19,4) NOT NULL,
+	Naziv                 VARCHAR(50) NOT NULL,
+	Nedostupan            boolean NOT NULL,
+	IdProizvodjaca        INTEGER NOT NULL,
+	 PRIMARY KEY (IdOpreme)
+)
+;
+
+
+
+CREATE TABLE SKIJE
+(
+	IdOpreme              INTEGER NOT NULL,
+	Kilaza                FLOAT NOT NULL,
+	 PRIMARY KEY (IdOpreme)
+)
+;
+
+
+
+CREATE TABLE SNOWBOARD
+(
+	IdOpreme              INTEGER NOT NULL,
+	Pancerice             boolean NOT NULL,
+	IdStila               INTEGER NOT NULL,
+	 PRIMARY KEY (IdOpreme)
+)
+;
+
+
+
+CREATE TABLE STIL
+(
+	IdStila               INTEGER AUTO_INCREMENT,
+	Naziv                 VARCHAR(50) NOT NULL,
+	 PRIMARY KEY (IdStila)
+)
+;
+
+
+
+CREATE TABLE TELEFON_BANKA
+(
+	BrojTelefona          VARCHAR(20) NOT NULL,
+	IdBanke               INTEGER NOT NULL,
+	 PRIMARY KEY (BrojTelefona,IdBanke)
+)
+;
+
+
+
+CREATE TABLE TELEFON_OSOBA
+(
+	BrojTelefona          VARCHAR(20) NOT NULL,
+	JMBG                  CHAR(13) NOT NULL,
+	 PRIMARY KEY (BrojTelefona,JMBG)
+)
+;
+
+
+
+CREATE TABLE TIP
+(
+	IdTipa                INTEGER AUTO_INCREMENT,
+	Naziv                 VARCHAR(30) NOT NULL,
+	 PRIMARY KEY (IdTipa)
+)
+;
+
+
+
+CREATE TABLE UGOVOR
+(
+	IdUgovora             INTEGER AUTO_INCREMENT,
+	DatumPocetkaRadnogOdnosa  DATE NOT NULL,
+	DatumKrajaRadnogOdnosa  DATE NULL,
+	Plata                 INTEGER NOT NULL,
+	JMBGZaposleni         CHAR(13) NOT NULL,
+	 PRIMARY KEY (IdUgovora)
+)
+;
+
+
+
+CREATE TABLE ZAPOSLENI
+(
+	JMBGZaposleni         CHAR(13) NOT NULL,
+	 PRIMARY KEY (JMBGZaposleni)
+)
+;
+
+
+
+ALTER TABLE BANKA
+	ADD FOREIGN KEY R_30 (PostanskiBroj) REFERENCES GRAD(PostanskiBroj)
+;
+
+
+
+ALTER TABLE I_OBUCA
+	ADD FOREIGN KEY R_109 (IdIznajmljivanja) REFERENCES IZNAJMLJIVANJE(IdIznajmljivanja)
+;
+
+
+ALTER TABLE I_OBUCA
+	ADD FOREIGN KEY R_110 (IdObuce) REFERENCES SKI_OBUCA(IdObuce)
+;
+
+
+
+ALTER TABLE I_OPREMA
+	ADD FOREIGN KEY R_107 (IdOpreme) REFERENCES SKI_OPREMA(IdOpreme)
+;
+
+
+ALTER TABLE I_OPREMA
+	ADD FOREIGN KEY R_108 (IdIznajmljivanja) REFERENCES IZNAJMLJIVANJE(IdIznajmljivanja)
+;
+
+
+
+ALTER TABLE ISPLATA
+	ADD FOREIGN KEY R_81 (IdUgovora) REFERENCES UGOVOR(IdUgovora)
+;
+
+
+ALTER TABLE ISPLATA
+	ADD FOREIGN KEY R_97 (BrojRacuna) REFERENCES RACUN_OSOBA(BrojRacuna)
+;
+
+
+
+ALTER TABLE IZNAJMLJIVANJE
+	ADD FOREIGN KEY R_84 (JMBG) REFERENCES KORISNIK(JMBG)
+;
+
+
+ALTER TABLE IZNAJMLJIVANJE
+	ADD FOREIGN KEY R_85 (JMBGZaposleni) REFERENCES RADNIK(JMBGZaposleni)
+;
+
+
+ALTER TABLE IZNAJMLJIVANJE
+	ADD FOREIGN KEY R_98 (BrojRacuna) REFERENCES RACUN_FIRMA(BrojRacuna)
+;
+
+
+ALTER TABLE IZNAJMLJIVANJE
+	ADD FOREIGN KEY R_56 (JMBGZaposleni) REFERENCES RADNIK(JMBGZaposleni)
+;
+
+
+
+ALTER TABLE KORISNIK
+	ADD FOREIGN KEY (JMBG) REFERENCES OSOBA(JMBG)
+		ON DELETE CASCADE
+;
+
+
+
+ALTER TABLE OSOBA
+	ADD FOREIGN KEY R_18 (PostanskiBroj) REFERENCES GRAD(PostanskiBroj)
+;
+
+
+
+ALTER TABLE R_OBUCA
+	ADD FOREIGN KEY R_103 (IdRezervacije) REFERENCES REZERVACIJA(IdRezervacije)
+;
+
+
+ALTER TABLE R_OBUCA
+	ADD FOREIGN KEY R_104 (IdObuce) REFERENCES SKI_OBUCA(IdObuce)
+;
+
+
+
+ALTER TABLE R_OPREMA
+	ADD FOREIGN KEY R_105 (IdRezervacije) REFERENCES REZERVACIJA(IdRezervacije)
+;
+
+
+ALTER TABLE R_OPREMA
+	ADD FOREIGN KEY R_106 (IdOpreme) REFERENCES SKI_OPREMA(IdOpreme)
+;
+
+
+
+ALTER TABLE RACUN
+	ADD FOREIGN KEY R_72 (IdBanke) REFERENCES BANKA(IdBanke)
+;
+
+
+
+ALTER TABLE RACUN_FIRMA
+	ADD FOREIGN KEY (BrojRacuna) REFERENCES RACUN(BrojRacuna)
+		ON DELETE CASCADE
+;
+
+
+
+ALTER TABLE RACUN_OSOBA
+	ADD FOREIGN KEY (BrojRacuna) REFERENCES RACUN(BrojRacuna)
+		ON DELETE CASCADE
+;
+
+
+ALTER TABLE RACUN_OSOBA
+	ADD FOREIGN KEY R_79 (JMBG) REFERENCES OSOBA(JMBG)
+;
+
+
+
+ALTER TABLE RADNIK
+	ADD FOREIGN KEY (JMBGZaposleni) REFERENCES ZAPOSLENI(JMBGZaposleni)
+		ON DELETE CASCADE
+;
+
+
+
+ALTER TABLE REZERVACIJA
+	ADD FOREIGN KEY R_44 (JMBGZaposleni) REFERENCES RADNIK(JMBGZaposleni)
+;
+
+
+ALTER TABLE REZERVACIJA
+	ADD FOREIGN KEY R_45 (JMBG) REFERENCES KORISNIK(JMBG)
+;
+
+
+
+ALTER TABLE SERVISER
+	ADD FOREIGN KEY (JMBGZaposleni) REFERENCES ZAPOSLENI(JMBGZaposleni)
+		ON DELETE CASCADE
+;
+
+
+
+ALTER TABLE SERVISIRANJE
+	ADD FOREIGN KEY R_55 (IdOpreme) REFERENCES SKI_OPREMA(IdOpreme)
+;
+
+
+ALTER TABLE SERVISIRANJE
+	ADD FOREIGN KEY R_82 (JMBGZaposleni) REFERENCES SERVISER(JMBGZaposleni)
+;
+
+
+
+ALTER TABLE SKI_OBUCA
+	ADD FOREIGN KEY R_53 (IdProizvodjaca) REFERENCES PROIZVODJAC(IdProizvodjaca)
+;
+
+
+ALTER TABLE SKI_OBUCA
+	ADD FOREIGN KEY R_54 (IdTipa) REFERENCES TIP(IdTipa)
+;
+
+
+
+ALTER TABLE SKI_OPREMA
+	ADD FOREIGN KEY R_52 (IdProizvodjaca) REFERENCES PROIZVODJAC(IdProizvodjaca)
+;
+
+
+
+ALTER TABLE SKIJE
+	ADD FOREIGN KEY (IdOpreme) REFERENCES SKI_OPREMA(IdOpreme)
+		ON DELETE CASCADE
+;
+
+
+
+ALTER TABLE SNOWBOARD
+	ADD FOREIGN KEY (IdOpreme) REFERENCES SKI_OPREMA(IdOpreme)
+		ON DELETE CASCADE
+;
+
+
+ALTER TABLE SNOWBOARD
+	ADD FOREIGN KEY R_51 (IdStila) REFERENCES STIL(IdStila)
+;
+
+
+
+ALTER TABLE TELEFON_BANKA
+	ADD FOREIGN KEY R_49 (IdBanke) REFERENCES BANKA(IdBanke)
+;
+
+
+
+ALTER TABLE TELEFON_OSOBA
+	ADD FOREIGN KEY R_48 (JMBG) REFERENCES OSOBA(JMBG)
+;
+
+
+
+ALTER TABLE UGOVOR
+	ADD FOREIGN KEY R_80 (JMBGZaposleni) REFERENCES ZAPOSLENI(JMBGZaposleni)
+;
+
+
+
+ALTER TABLE ZAPOSLENI
+	ADD FOREIGN KEY (JMBGZaposleni) REFERENCES OSOBA(JMBG)
+		ON DELETE CASCADE
+;
+
+
